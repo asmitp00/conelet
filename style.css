@@ -726,7 +726,7 @@ form input {
   }
 
     .bowl-selector {
-    bottom: 280px;
+    bottom: 200px;
     gap: 12px;
     margin-left: 2px;
   }
@@ -764,7 +764,6 @@ form input {
   }
 
     .bowl-selector {
-    bottom: 300px;
     gap: 12px;
     margin-left: 2px;
   }
