@@ -105,24 +105,51 @@ header {
 
 
 
+
+
 .detail {
-  color: white;
-  font-size: 25px;
-  font-weight: lighter;
-  margin-top: 2px;
-  margin-left: 130px;
-  position: relative;
+
+    position: relative;
+
+    color: white;
+
+    font-size: 25px;
+
+    font-weight: lighter;
+
+    margin-top: 2px;
+
+    margin-left: 130px;
+
+    padding-right: 80px;
+
 }
 
+
 .detail::after {
-  content: "→";
-  position: absolute;
-  left: 30%;
-  transform: translateX(-50%);
-  top: 10px;
-  font-size: 60px;
-  color: white;
+
+  content: "→";
+
+  position: absolute;
+
+  left: 30%;
+
+  transform: translateX(-50%);
+
+  font-size: 60px;
+
+  color: white;
+
+  align-items: center;
+
+  justify-content: center;
+
+  align-content: center;
+
+
 }
+
+
 
 .bowl-selector {
     position: absolute;
