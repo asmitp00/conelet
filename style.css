@@ -138,6 +138,7 @@ header {
     height: auto;
     transition: transform 0.3s ease;
     object-fit: contain;
+filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.4));
 }
 
 .bowl-wrapper:nth-child(1) .bowl,
