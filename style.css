@@ -104,65 +104,38 @@ header {
 
 
 
-
-
-
 .detail {
-
-    position: relative;
-
-    color: white;
-
-    font-size: 25px;
-
-    font-weight: lighter;
-
-    margin-top: 2px;
-
-    margin-left: 130px;
-
-    padding-right: 80px;
-
+    position: relative;
+    color: white;
+    font-size: 25px;
+    font-weight: lighter;
+    margin-top: 2px;
+    margin-left: 130px;
+    padding-right: 80px;
 }
-
 
 .detail::after {
-
-  content: "→";
-
-  position: absolute;
-
-  left: 30%;
-
-  transform: translateX(-50%);
-
-  font-size: 60px;
-
-  color: white;
-
-  align-items: center;
-
-  justify-content: center;
-
-  align-content: center;
-
+  content: "→";
+  position: absolute;
+  left: 30%;
+  transform: translateX(-50%);
+  font-size: 60px;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
 
 }
-
-
 
 .bowl-selector {
     position: absolute;
-    bottom: 250px;
+    bottom: 220px;
     left: 23%;
     transform: translateX(-50%);
     display: flex;
     gap: 2px;
     z-index: 15;
     align-items: flex-end;
-
-
-
 
 }
 
