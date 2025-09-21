@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - CONELET</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <div class="logo">C<span class="white">O</span>NÉLET</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#product">Products</a></li>
+                    <li><a href="../index.html#about">About Us</a></li>
+                    <li><a href="../index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="dropdown">
+                    <a href="#" class="account-link">Account <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        </div>
+                </div>
+                <img src="user-person-account-avatar-profile-man-svgrepo-com.svg" alt="Acc" class="bag-icon">
+            </div>
+        </header>
+
+        <main class="checkout-main">
+            <div class="checkout-form-container">
+                <div class="checkout-steps">
+                    <div class="step active">Account <i class="fas fa-check-circle"></i></div>
+                    <div class="step">Shipping <i class="fas fa-check-circle"></i></div>
+                    <div class="step">Payment <i class="fas fa-check-circle"></i></div>
+                </div>
+
+                <div class="account-details-section">
+                    <h3>Account details</h3>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <div class="input-with-icon">
+                            <input type="email" id="email" value="Email@myemail.com">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-with-icon">
+                            <input type="password" id="password" value="********">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="form-actions-top">
+                        <span>Register for account</span>
+                        <button class="btn-primary">Login</button>
+                    </div>
+                </div>
+
+                <div class="checkout-buttons-bottom">
+                    <button class="btn-secondary">Cancel order</button>
+                    <button class="btn-primary">Shipping details</button>
+                </div>
+            </div>
+
+            <div class="order-summary-container">
+                <h3>Order Summary</h3>
+                <div class="order-item">
+                    <img src="https://www.shelovesbiscotti.com/wp-content/uploads/2024/07/fruit-parfait-2.jpg" alt="Parfait Collection 1">
+                    <div class="item-details">
+                        <h4>parfait collection 1</h4>
+                        <p>£10.99</p>
+                    </div>
+                    <div class="quantity-control">
+                        <button>-</button>
+                        <span>1</span>
+                        <button>+</button>
+                    </div>
+                </div>
+                <div class="gift-discount">
+                    <input type="text" placeholder="Gift Card / Discount code">
+                    <button class="btn-outline">Apply</button>
+                </div>
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Sub total</span>
+                        <span>£10.99</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span>£3.0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span class="free">Free</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span>£13.99</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

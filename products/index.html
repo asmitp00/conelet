@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Products - CONELET</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<body>
+  <div class="page-container">
+    <header>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html#products">Products</a></li>
+          <li><a href="../index.html#about">About Us</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="content-wrapper">
+      <aside class="sidebar">
+        <div class="filter-section">
+          <h3>Keywords</h3>
+          <div class="keyword-tag">
+            <span>PARFAITS</span>
+            <button>&times;</button>
+          </div>
+          <ul class="filter-list">
+            <li>
+              <input type="checkbox" id="cones" name="cones">
+              <label for="cones">CONES</label>
+
+            </li>
+            <li>
+              <input type="checkbox" id="tubs" name="tubs">
+              <label for="tubs">TUBS</label>
+
+            </li>
+            <li>
+              <input type="checkbox" id="parfait" name="parfait" checked>
+              <label for="parfait">PARFAIT</label>
+
+            </li>
+          </ul>
+        </div>
+
+        <div class="filter-section">
+          <h3>Price</h3>
+          <div class="price-slider">
+            <input type="range" min="0" max="100" value="100" class="slider">
+            <span>$0-100</span>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Size</h3>
+          <ul class="filter-list">
+            <li>
+              <input type="checkbox" id="large" name="large">
+              <label for="large">LARGE</label>
+            </li>
+            <li>
+              <input type="checkbox" id="medium" name="medium">
+              <label for="medium">MEDIUM</label>
+            </li>
+            <li>
+              <input type="checkbox" id="small" name="small">
+              <label for="small">SMALL</label>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <section class="product-area">
+        <div class="toolbar">
+          <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <img src="images/search-button-svgrepo-com.svg" alt="Search Icon" class="search-icon">
+          </div>
+          <div class="actions">
+           <a href="../cart/index.html"> <img src="images/shopping-cart-outline-svgrepo-com.svg" alt="Cart" class="cart-icon"></a>
+            <button class="sort-btn active">✓ New</button>
+            <button class="sort-btn">Price ascending</button>
+            <button class="sort-btn">Price descending</button>
+            <button class="sort-btn">Rating</button>
+          </div>
+        </div>
+
+        <div class="product-grid">
+          <div class="product-card">
+            <img src="https://www.shelovesbiscotti.com/wp-content/uploads/2024/07/fruit-parfait-2.jpg" alt="Collection 1">
+            <h4>COLLECTION 1</h4>
+            <p>$10.99</p>
+          </div>
+          <div class="product-card">
+            <img src="https://lovingitvegan.com/wp-content/uploads/2016/08/Vegan-Parfait-Square.jpg" alt="Collection 2">
+            <h4>COLLECTION 2</h4>
+            <p>$12.99</p>
+          </div>
+          <div class="product-card">
+            <img src="https://livingthegourmet.com/wp-content/uploads/2016/02/Greek_Yogurt_Fruit_Nut_Parfait_Hero_2.jpe" alt="Collection 3">
+            <h4>COLLECTION 3</h4>
+            <p>$30.99</p>
+          </div>
+          <div class="product-card accent-bg-1">
+            <img src="images/strawberry.jpg" alt="Strawberry Cone">
+            <h4>STRAWBERRY CONE</h4>
+            <p>$2.99</p>
+          </div>
+          <div class="product-card accent-bg-2">
+            <img src="images/choco.png" alt="Chocolate Cone">
+            <h4>CHOCOLATE CONE</h4>
+            <p>$3.59</p>
+          </div>
+          <div class="product-card accent-bg-3">
+            <img src="images/blueberry.png" alt="Blueberry Cone">
+            <h4>BLUEBERRY CONE</h4>
+            <p>$4.99</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+
+</html>
