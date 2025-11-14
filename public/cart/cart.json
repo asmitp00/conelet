@@ -1,0 +1,20 @@
+{
+  "taxRate": 0.18,
+  "shippingCost": 0.00,
+  "items": [
+    {
+      "id": 1,
+      "name": "Parfait Collection 1",
+      "price": 10.99,
+      "image": "https://www.shelovesbiscotti.com/wp-content/uploads/2024/07/fruit-parfait-2.jpg",
+      "quantity": 1
+    },
+    {
+      "id": 5,
+      "name": "Chocolate Cone",
+      "price": 3.59,
+      "image": "/products/images/choco.png",
+      "quantity": 2
+    }
+  ]
+}

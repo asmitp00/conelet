@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Products - CONELET</title>
+  <link rel="stylesheet" href="/products/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+  <div class="page-container">
+
+    <%- include('partials/app-header') %>
+
+    <main class="content-wrapper">
+      <aside class="sidebar">
+         <div class="filter-section">
+          <h3>Keywords</h3>
+          <div id="keyword-container">
+            </div>
+
+          <ul class="filter-list">
+            <li>
+              <input type="checkbox" id="cones" name="cone">
+              <label for="cones">CONES</label>
+            </li>
+            <li>
+              <input type="checkbox" id="tubs" name="tub">
+              <label for="tubs">TUBS</label>
+            </li>
+            <li>
+              <input type="checkbox" id="parfait" name="parfait" checked>
+              <label for="parfait">PARFAIT</label>
+            </li>
+          </ul>
+        </div>
+
+        <div class="filter-section">
+          <h3>Price</h3>
+          <div class="price-slider">
+            <input type="range" min="0" max="100" value="100" class="slider" id="price-slider">
+            <span id="price-value">$0-100</span>
+          </div>
+        </div>
+
+        <div class="filter-section">
+        
+        </div>
+      </aside>
+
+      <section class="product-area">
+        <div class="toolbar">
+          <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <img src="/products/images/search-button-svgrepo-com.svg" alt="Search Icon" class="search-icon">
+          </div>
+          <div class="actions">
+            <!--
+              THIS IS THE FIX:
+              We wrap the cart icon in a new div with class 'toolbar-cart-wrapper'
+              and place the counter span inside it.
+            --><div class="toolbar-cart-wrapper">
+              <a href="/cart">
+                <img src="/products/images/shopping-cart-outline-svgrepo-com.svg" alt="Cart" class="cart-icon">
+              </a>
+              <span id="cart-counter">0</span>
+            </div>
+
+            <button class="sort-btn active" data-sort="new">✓ New</button>
+            <button class="sort-btn" data-sort="price-asc">Price ascending</button>
+            <button class="sort-btn" data-sort="price-desc">Price descending</button>
+            <button class="sort-btn" data-sort="rating">Rating</button>
+          </div>
+        </div>
+
+        <div class="product-grid">
+          <% if (products && products.length > 0) { %>
+            <% products.forEach(product => { %>
+
+              <div class="product-card">
+                <img src="<%= product.image %>" alt="<%= product.name %>">
+                <h4><%= product.name %></h4>
+                <p>$<%= product.price.toFixed(2) %></p>
+
+                <button class="btn-add-to-cart"
+                  data-id="<%= product._id %>"
+                  data-name="<%= product.name %>"
+                  data-price="<%= product.price %>"
+                  data-image="<%= product.image %>">
+                  Add to Cart
+                </button>
+              </div>
+
+            <% }) %>
+          <% } else { %>
+            <p>No products found in the database.</p>
+          <% } %>
+        </div>
+        </section>
+    </main>
+  </div>
+
+  <script src="/products/products-interactive.js"></script>
+</body>
+</html>

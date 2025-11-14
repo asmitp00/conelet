@@ -1,0 +1,84 @@
+[
+  {
+    "id": 1,
+    "name": "Collection 1",
+    "price": 10.99,
+    "image": "https://www.shelovesbiscotti.com/wp-content/uploads/2024/07/fruit-parfait-2.jpg",
+    "category": "parfait",
+    "isFeatured": true
+  },
+  {
+    "id": 2,
+    "name": "Collection 2",
+    "price": 12.99,
+    "image": "https://lovingitvegan.com/wp-content/uploads/2016/08/Vegan-Parfait-Square.jpg",
+    "category": "parfait",
+    "isFeatured": false
+  },
+  {
+    "id": 3,
+    "name": "Collection 3",
+    "price": 30.99,
+    "image": "https://livingthegourmet.com/wp-content/uploads/2016/02/Greek_Yogurt_Fruit_Nut_Parfait_Hero_2.jpe",
+    "category": "parfait",
+    "isFeatured": false
+  },
+  {
+    "id": 4,
+    "name": "Strawberry Cone",
+    "price": 2.99,
+    "image": "images/strawberry.jpg",
+    "category": "cone",
+    "isFeatured": true
+  },
+  {
+    "id": 5,
+    "name": "Chocolate Cone",
+    "price": 3.59,
+    "image": "images/choco.png",
+    "category": "cone",
+    "isFeatured": false
+  },
+  {
+    "id": 6,
+    "name": "Blueberry Cone",
+    "price": 4.99,
+    "image": "images/blueberry.png",
+    "category": "cone",
+    "isFeatured": false
+  },
+  {
+    "id": 7,
+    "name": "Strawberry Tub",
+    "price": 10.99,
+    "image": "images/strawtub.png",
+    "category": "tub",
+    "isFeatured": true
+  },
+  {
+    "id": 8,
+    "name": "Choco Tub",
+    "price": 10.99,
+    "image": "images/chocotub.png",
+    "category": "tub",
+    "isFeatured": false
+  },
+  {
+    "id": 9,
+    "name": "Blueberry Tub",
+    "price": 13.99,
+    "image": "images/bluetub.png",
+    "category": "tub",
+    "isFeatured": false
+  },
+  {
+    "id": 9,
+    "name": "Blueberry Tub",
+    "price": 13.99,
+    "image": "images/bluetub.png",
+    "category": "tub",
+    "isFeatured": false
+  }
+
+
+]

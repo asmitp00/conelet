@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CONELET</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <%- include('partials/header') %>
+
+  <div class="hero-container">
+    <section class="hero hero1 active">
+      <div class="hero-details">
+        <h2>C<span class="highlight">O</span>NÉLET</h2>
+        <p class="detail">STRAWBERRY DELIGHT</p>
+      </div>
+    </section>
+    <section class="hero hero2">
+      <div class="hero-details">
+        <h2>C<span class="highlight">O</span>NÉLET</h2>
+        <p class="detail">CHOCO TROPICS</p>
+      </div>
+    </section>
+    <section class="hero hero3">
+      <div class="hero-details">
+        <h2>C<span class="highlight">O</span>NÉLET</h2>
+        <p class="detail">BLUEBERRY FANTASY</p>
+      </div>
+    </section>
+    <section class="hero hero4">
+      <div class="hero-details">
+        <h2>C<span class="highlight">O</span>NÉLET</h2>
+        <p class="detail">MANGO PARADISE</p>
+      </div>
+    </section>
+  </div>
+
+  <section id="products" class="specialties">
+    <h2>C<span class="highlight">O</span>NÉLET</h2>
+    <p>OUR PRODUCTS</p>
+    <div class="boxes">
+      <div class="box1">
+        <div class="img1"></div>
+        <div class="text">
+          <p>CREAMY TUBS</p>
+        </div>
+        <a href="/products">
+          <div class="order">
+            <p>SHOP NOW</p>
+          </div>
+        </a>
+      </div>
+      <div class="box2">
+        <div class="img2"></div>
+        <div class="text">
+          <p>PARFAIT COLLECTION</p>
+        </div>
+        <a href="/products">
+          <div class="order">
+            <p>SHOP NOW</p>
+          </div>
+        </a>
+      </div>
+      <div class="box3">
+        <div class="img3"></div>
+        <div class="text">
+          <p>CONICAL TREATS</p>
+        </div>
+        <a href="/products">
+          <div class="order">
+            <p>SHOP NOW</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="bowl-selector">
+    <div class="bowl-wrapper active">
+      <img src="/strawbowl-removebg-preview.png" alt="Strawberry" class="bowl straw" data-target="hero1" />
+      <div class="indicator"></div>
+    </div>
+
+    <div class="bowl-wrapper">
+      <img src="/choclate-removebg-preview.png" alt="Chocolate choc" class="bowl" data-target="hero2" />
+      <div class="indicator"></div>
+    </div>
+    <div class="bowl-wrapper">
+      <img src="/blueberry-removebg-preview.png" alt="Blueberry blub" class="bowl" data-target="hero3" />
+      <div class="indicator"></div>
+    </div>
+    <div class="bowl-wrapper">
+      <img src="/mangbowl-removebg-preview.png" alt="Mango mani" class="bowl" data-target="hero4" />
+      <div class="indicator"></div>
+    </div>
+  </div>
+
+
+  <div class="about" id="about">
+    <div class="navhide"></div>
+
+    <div class="firstcont">
+      <div class="firstpara">
+        <p>Welcome to Cone’Let! 🍦
+          Every scoop is made to spark joy and sweeten
+          your moments.</p>
+      </div>
+
+      <div class="firstimg"></div>
+    </div>
+
+    <div class="seccont">
+      <div class="rec1">
+        <p>ABOUT US</p>
+      </div>
+      <div class="rec1cont">
+        <p>At Cone’Let, we believe ice cream is more than just dessert... 🍦</p>
+      </div>
+      <div class="rec2"></div>
+    </div>
+
+    <div class="thirdco">
+      <div class="thirdimg"></div>
+
+      <div class="thirdpara">
+        <p>At Cone’Let, our future goal is to grow into a global brand... 🍦</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="contact" id="contact">
+    <div class="heading">
+      <h2>HAPPY TO HEAR FROM YOU!! </h2>
+    </div>
+
+    <div class="contactbox">
+      <div class="inner-box">
+
+        <div class="form-section">
+          <form>
+            <label for="username">Full Name:</label>
+            <input type="text" id="username" name="username" />
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" />
+
+            <label for="message">Message:</label>
+            <input type="text" id="message" name="message" />
+
+            <button type="submit" class="contact-btn">contact us</button>
+          </form>
+        </div>
+
+        <div class="info-section">
+          <p><strong>customer support:</strong><br />
+            mob.no–92839456<br />
+            mail: Conelet@gmail.com</p>
+
+          <p><strong>Based in:</strong><br />
+            Gurgaon , India</p>
+
+          <div class="social-icons">
+            <i class="fab fa-facebook-f"></i>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-linkedin-in"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>

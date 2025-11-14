@@ -1,0 +1,563 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    padding: 15px 50px;
+}
+
+.navbar .nav-menu {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+}
+
+.navbar .nav-menu .navlink {
+    color: black;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.navbar .nav-menu .navlink:hover {
+    color: white;
+}
+
+.hero-container {
+    position: relative;
+    height: 100vh;
+}
+
+.hero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 110px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+}
+
+.hero.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 5;
+}
+
+.hero1 {
+    background: url("strawberry.png") center/cover no-repeat;
+}
+
+.hero2 {
+    background: url("choco.png") center/cover no-repeat;
+}
+
+.hero3 {
+    background: url("blub.png") center/cover no-repeat;
+}
+
+.hero4 {
+    background: url("mango.png") center/cover no-repeat;
+}
+
+.hero-details {
+    margin-top: -190px;
+}
+
+.hero-details h2 {
+    font-size: 128px;
+    font-weight: normal;
+    color: black;
+}
+
+.highlight {
+    color: white;
+}
+
+
+
+.detail {
+    position: relative;
+    color: white;
+    font-size: 25px;
+    font-weight: lighter;
+    margin-top: 2px;
+    margin-left: 130px;
+    padding-right: 80px;
+}
+
+.detail::after {
+  content: "→";
+  position: absolute;
+  left: 30%;
+  transform: translateX(-50%);
+  font-size: 60px;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+
+}
+
+.bowl-selector {
+    position: absolute;
+    bottom: 220px;
+    left: 23%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2px;
+    z-index: 15;
+    align-items: flex-end;
+
+}
+
+
+.bowl-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+}
+
+.bowl {
+    display: block;
+    cursor: pointer;
+    width: 90px;
+    height: auto;
+    transition: transform 0.3s ease;
+    object-fit: contain;
+     filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.4));
+
+
+}
+
+.bowl-wrapper:nth-child(1) .bowl,
+.bowl-wrapper:nth-child(2) .bowl,
+.bowl-wrapper:nth-child(3) .bowl,
+.bowl-wrapper:nth-child(4) .bowl {
+    width: 100px;
+    height: auto;
+
+}
+
+
+.bowl:hover {
+    transform: scale(1.1);
+}
+
+.indicator {
+    width: 26px;
+    height: 5px;
+    border-radius: 40px;
+    background-color: transparent;
+    margin-top: 0px;
+    transition: background-color 0.3s ease;
+}
+
+.bowl-wrapper.active .indicator {
+    background-color: black;
+}
+
+.bowl-wrapper:nth-child(1).active .indicator {
+    background-color: pink;
+}
+
+.bowl-wrapper:nth-child(2).active .indicator {
+    background-color: burlywood;
+}
+
+.bowl-wrapper:nth-child(3).active .indicator {
+    background-color: rgb(223, 190, 243);
+}
+
+.bowl-wrapper:nth-child(4).active .indicator {
+    background-color: rgb(255, 178, 12);
+}
+
+
+
+
+
+.specialties {
+    position: relative;
+    background-image: url(specialties.png);
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.boxes {
+    margin-top: 60px;
+    display: flex;
+    gap: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+
+.specialties h2 {
+    font-size: 115px;
+    font-weight: lighter;
+    color: black;
+    margin-top: 10px;
+    text-align: center;
+    margin: 0;
+}
+
+.specialties p {
+    font-size: 23px;
+    color: white;
+    text-align: center;
+    margin: 0;
+}
+
+.box1,
+.box2,
+.box3 {
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    border-radius: 10px;
+    border: 2px solid white;
+    width: 300px;
+    height: 380px;
+    background-color: white;
+}
+
+.img1 {
+    background-image: url(https://m.media-amazon.com/images/I/71-Jk4SpmOL.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 260px;
+    height: 200px;
+    border-radius: 10px;
+    margin: 14px;
+}
+
+.img2 {
+    background-image: url(https://soranews24.com/wp-content/uploads/sites/3/2025/03/SP-2.jpg?w=560);
+    background-size: cover;
+    background-position: center;
+    width: 260px;
+    height: 200px;
+    border-radius: 10px;
+    margin: 14px;
+}
+
+.img3 {
+    background-image: url(https://i.guim.co.uk/img/media/d3209cf118dce1ec55d357dee05ae646104c0854/0_73_5939_4752/master/5939.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=26cc392bb4818209134a314b26768058);
+    background-size: cover;
+    background-position: center;
+    width: 260px;
+    height: 200px;
+    border-radius: 10px;
+    margin: 14px;
+}
+
+.specialties a {
+    text-decoration: none;
+    color: inherit;
+}
+.text p {
+    color: black;
+    text-align: center;
+    padding: 2px;
+}
+
+.order {
+    border: 2px solid;
+    border-radius: 40px;
+    background-color: black;
+    margin-top: 20px;
+    text-decoration: none;
+    cursor: pointer;
+
+
+}
+
+.order p {
+    font-size: 18px;
+    margin: 10px;
+}
+
+.about {
+    height: 100vh;
+}
+
+.navhide {
+    border: 2px solid rgb(168, 162, 162);
+    height: 7vh;
+    background-color: rgb(168, 162, 162);
+}
+
+.firstcont {
+    border: 2px solid linear-gradient(115deg, #F7A7A7 12%, #E06B6B 74%);
+    height: 20vh;
+    background: linear-gradient(115deg, #F7A7A7 12%, #E06B6B 74%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.firstimg {
+    background-image: url(https://media.istockphoto.com/id/950272274/photo/group-of-cheerful-multi-ethnic-children-eating-ice-cream-in-summer.jpg?s=612x612&w=0&k=20&c=0PBAMc4cs04Bm0zbyKlP5-Wwpo-a9V0oP8338pXBOgg=);
+    background-size: cover;
+    background-position: center;
+    width: 40%;
+    height: 20vh;
+}
+
+.firstpara {
+    height: 20vh;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.firstpara p {
+    margin-top: 20px;
+    width: 300px;
+    font-family: "Poppins", sans-serif;
+    font-weight: normal;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.seccont {
+    border: 0px solid black;
+    height: 50vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.rec1 {
+    position: relative;
+    display: flex;
+    background-color: rgb(144, 73, 73);
+    width: 250px;
+    height: 50vh;
+    align-content: center;
+}
+
+.rec1 p {
+    top: 170px;
+    padding: 3px;
+    position: absolute;
+    transform: rotate(-90deg);
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    color: white;
+    font-size: 37px;
+    letter-spacing: 2.22px;
+    line-height: normal;
+}
+
+.rec2 {
+    background-color: rgb(247, 6, 6);
+    width: 250px;
+    height: 50vh;
+}
+
+.rec1cont {
+    position: relative;
+    display: flex;
+    background-color: rgb(255, 254, 254);
+    width: 80%;
+    height: 50vh;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.rec1cont p {
+    width: 600px;
+    font-family: "Poppins", sans-serif;
+    font-weight: normal;
+    color: black;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.thirdco {
+    border: 0cap black solid;
+    height: 23vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.thirdimg {
+    background-image: url(pexels-safari-consoler-3290243-15897036\ 1.png);
+    background-size: contain;
+    background-position: center;
+    width: 30%;
+    height: 23vh;
+}
+
+.thirdpara {
+    height: 23vh;
+    width: 70%;
+    background-color: rgb(92, 20, 143);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.thirdpara p {
+    margin-top: 60px;
+    width: 600px;
+    font-family: "Poppins", sans-serif;
+    font-weight: normal;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.contact {
+    height: 100vh;
+    width: 100%;
+    background-image: url(contact.png);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: right;
+}
+
+.heading {
+    text-align: center;
+    width: 100%;
+    margin: 40px;
+    font-size: larger;
+}
+
+.contactbox {
+    margin-left: 460px;
+    margin-top: 10px;
+    position: relative;
+    border: 3px solid;
+    width: 70%;
+    height: 390px;
+}
+
+.inner-box {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    padding: 30px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-section,
+.info-section {
+    flex: 1;
+    padding: 10px;
+}
+
+form label {
+    display: block;
+    font-weight: 500;
+    font-size: 17px;
+}
+
+form input {
+    width: 90%;
+    padding: 2px 0;
+    border: none;
+    border-bottom: 3px solid black;
+    background: transparent;
+    margin-bottom: 10px;
+    font-size: 14px;
+    outline: none;
+}
+
+.contact-btn {
+    background-color: black;
+    color: white;
+    padding: 17px 90px;
+    border: none;
+    border-radius: 40px;
+    font-weight: 500;
+    font-size: 17px;
+    margin-top: 20px;
+    cursor: pointer;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    margin-left: 80px;
+}
+
+.info-section {
+    font-size: 17px;
+    line-height: 1.8;
+    padding-left: 30px;
+    color: black;
+}
+
+.info-section p {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.social-icons {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.social-icons i {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+

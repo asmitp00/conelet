@@ -1,0 +1,391 @@
+:root {
+    --main-bg: #ffffff;
+    --text-color: #060505;
+    --light-text: #888;
+    --border-color: #eee;
+    --accent-pink: #e8c6e3;
+    --accent-brown: #d7bca8;
+    --accent-purple: #c5b4e0;
+    --font-family: 'Poppins', sans-serif;
+    --primary-blue: #3f7de1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-image: url(images/SHOP.png);
+    background-position: center;
+    background-size:cover ;
+    color: var(--text-color);
+    padding: 1rem;
+}
+
+.page-container {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* ==============================================
+  HEADER CSS
+  ==============================================
+*/
+
+.white{
+  color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    letter-spacing: 1px;
+}
+
+.main-nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 2.5rem;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 1rem;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+}
+
+.main-nav a.active {
+    font-weight: 700;
+    border-bottom: 3px solid black;
+}
+
+.main-nav a:hover {
+    color: white;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.account-link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.account-link i {
+    font-size: 0.8rem;
+}
+
+.bag-icon {
+    width: 25px;
+    height: 25px;
+}
+/* ==============================================
+  END OF HEADER CSS
+  ==============================================
+*/
+
+
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1rem;
+    background: var(--main-bg);
+    border-radius: 20px;
+    padding: 2rem;
+    min-height: 80vh;
+}
+
+.sidebar {
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--border-color);
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+
+}
+.filter-section {
+    margin-bottom: 2.5rem;
+}
+
+.filter-section h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.keyword-tag {
+    background-color: var(--border-color);
+    border-radius: 5px;
+    padding: 0.5rem 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.keyword-tag span {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.keyword-tag button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--light-text);
+}
+
+.filter-list {
+    list-style: none;
+}
+
+.filter-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.filter-list input[type="checkbox"] {
+    margin-right: 0.8rem;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--text-color);
+}
+
+.filter-list label {
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+.filter-list .description {
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+.price-slider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price-slider input[type="range"] {
+    width: 70%;
+    accent-color: var(--text-color);
+}
+.price-slider span {
+    font-weight: 500;
+}
+
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    width: 250px;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.search-bar .search-icon {
+    position: absolute;
+    right: 1rem;
+    width: 20px;
+    opacity: 0.5;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* NEW: Wrapper for the cart icon in the toolbar.
+  This makes it a positioning context for the counter.
+*/
+.toolbar-cart-wrapper {
+  position: relative;
+  display: inline-block; /* To contain its children */
+  margin-right: 1rem; /* Adjust as needed for spacing */
+}
+
+/* Your original cart-icon style, now specifically for the toolbar */
+.toolbar-cart-wrapper .cart-icon {
+    width: 30px;
+    height: 30px; /* Ensure height matches width for square icon */
+    cursor: pointer;
+}
+
+.sort-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    padding: 0.7rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.sort-btn.active {
+    background-color: var(--text-color);
+    color: var(--main-bg);
+    border-color: var(--text-color);
+}
+
+.sort-btn:hover {
+    background-color: #f0f0f0;
+}
+.sort-btn.active:hover {
+    background-color: #555;
+}
+
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    overflow: hidden;
+    text-align: center;
+    padding: 1rem;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+
+
+.product-card.accent-bg-1 { background-color: var(--accent-pink); border: none;}
+.product-card.accent-bg-2 { background-color: var(--accent-brown); border: none;}
+.product-card.accent-bg-3 { background-color: var(--accent-purple); border: none;}
+
+.product-card.accent-bg-1 img,
+.product-card.accent-bg-2 img,
+.product-card.accent-bg-3 img {
+    object-fit: cover;
+    object-position:center;
+    height: 220px;
+
+    margin-bottom: 1.5rem;
+}
+
+
+.product-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.product-card p {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.btn-add-to-cart {
+    background-color: var(--text-color); /* This is your black color */
+    color: var(--main-bg); /* This is your white color */
+    border: none;
+    border-radius: 20px; /* This makes it "rounded" */
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 1rem; /* Adds space above the button */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-add-to-cart:hover {
+    background-color: #333; /* A slightly lighter black on hover */
+    transform: translateY(-2px); /* Lifts the button a bit */
+}
+
+.btn-add-to-cart:active {
+    transform: translateY(0);
+}
+
+/* ==============================================
+  UPDATED CART COUNTER STYLES
+  ==============================================
+*/
+/* Removed: .cart-link-wrapper */
+/* Removed: .cart-icon-header */
+
+#cart-counter {
+  position: absolute;
+  top: -8px; /* Adjust this to move it up/down relative to .toolbar-cart-wrapper */
+  right: -8px; /* Adjust this to move it left/right relative to .toolbar-cart-wrapper */
+
+  background-color: #e53e3e; /* A strong red */
+  color: white;
+  font-family: var(--font-family);
+  font-weight: bold;
+  font-size: 12px;
+
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+
+  /* Center the number inside the circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
