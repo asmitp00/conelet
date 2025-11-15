@@ -8,20 +8,15 @@ const Product = require('./models/product');
 const CartItem = require('./models/cartItem');
 
 // --- PLACEHOLDER USER MODEL/ARRAY ---
-// In a real application, this would be imported from './models/user'
-// We will use a simple in-memory array for demonstration purposes
+// IMPORTANT: This is a placeholder. Replace with your Mongoose User model later.
 let users = []; 
-// If you create a User model later, you would replace `let users = []` with
-// const User = require('./models/user');
-// and replace array operations (find/push) with User.findOne/User.create.
-// ------------------------------------
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // --- Middleware Setup ---
 app.use(express.json());
-// IMPORTANT: Add this middleware to parse form data for the account login/register
+// Parses incoming form data (crucial for account login/register)
 app.use(express.urlencoded({ extended: true })); 
 
 const dbUrl = process.env.DATABASE_URL;
@@ -36,19 +31,15 @@ app.set('views', path.join(__dirname, 'views'));
 const session = require('express-session');
 
 app.use(session({
-    secret: 'change-this-to-a-long-random-string', // Change this!
+    secret: 'change-this-to-a-long-random-string', 
     resave: false,
     saveUninitialized: true
 }));
 
 // --- Middleware to attach user/status to all routes ---
 app.use((req, res, next) => {
-    // If the user is logged in, attach their data to locals for EJS access
     res.locals.user = req.session.user || null;
-    
-    // Calculate total discount/tax for cart rendering
     res.locals.discount = req.session.discount || 0;
-    
     next();
 });
 
@@ -68,19 +59,17 @@ app.get('/products', async (req, res) => {
 // 1. ACCOUNT RENDERING ROUTE
 app.get('/account', (req, res) => {
     if (req.session.user) {
-        return res.redirect('/'); // If already logged in, go home
+        return res.redirect('/'); 
     }
     res.render('account', { 
-        error: req.session.error || null, // Check session for error messages
+        error: req.session.error || null, 
         mode: req.session.mode || 'login'
     });
-    // Clear session messages after display
     req.session.error = null;
     req.session.mode = null;
 });
 
 app.get('/cart', async (req, res) => {
-    // The previous logic was correct, but we need to factor in the discount!
     try {
         const cartItems = await CartItem.find({});
         let subtotal = 0;
@@ -134,7 +123,6 @@ app.post('/account/login', (req, res) => {
     
     if (user) {
         req.session.user = user;
-        // Logic to merge carts would go here if needed
         res.redirect('/cart'); 
     } else {
         req.session.error = 'Invalid email or password.';
@@ -153,15 +141,58 @@ app.get('/account/logout', (req, res) => {
 // --- EXISTING & NEW API ROUTES ---
 
 app.get('/api/products', async (req, res) => {
-    // ... (Your existing API logic) ...
+    try {
+        let filter = {};
+        if (req.query.categories) filter.category = { $in: req.query.categories };
+        if (req.query.sizes) filter.size = { $in: req.query.sizes };
+        if (req.query.maxPrice) filter.price = { $lte: parseFloat(req.query.maxPrice) };
+        if (req.query.search) filter.name = { $regex: req.query.search, $options: 'i' };
+
+        let sort = {};
+        if (req.query.sort === 'price-asc') sort.price = 1;
+        else if (req.query.sort === 'price-desc') sort.price = -1;
+
+        const filteredProducts = await Product.find(filter).sort(sort);
+        res.json(filteredProducts);
+    } catch (err) {
+        res.status(500).json({ error: 'Error fetching data' });
+    }
 });
 
+// FIX: Changed findOne by productId to ensure correct item aggregation
 app.post('/api/cart/add', async (req, res) => {
-    // ... (Your existing API logic) ...
+    try {
+        const { productId, name, price, image } = req.body;
+        // Find by productId field, not Mongoose _id
+        let existingItem = await CartItem.findOne({ productId }); 
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+            await existingItem.save();
+        } else {
+            // Ensure ProductId is passed to the database model
+            const newItem = new CartItem({ productId, name, price, image, quantity: 1 });
+            await newItem.save();
+        }
+
+        const totalCount = await CartItem.find({})
+            .then(items => items.reduce((sum, item) => sum + item.quantity, 0));
+
+        res.json({ success: true, message: 'Added to cart!', newCount: totalCount });
+    } catch (err) {
+        res.status(500).json({ success: false, error: 'Error adding to cart' });
+    }
 });
 
 app.get('/api/cart/count', async (req, res) => {
-    // ... (Your existing API logic) ...
+    try {
+        const totalCount = await CartItem.find({})
+            .then(items => items.reduce((sum, item) => sum + item.quantity, 0));
+
+        res.json({ success: true, count: totalCount });
+    } catch (err) {
+        res.status(500).json({ success: false, error: 'Error counting cart' });
+    }
 });
 
 app.post('/api/cart/update/:itemId', async (req, res) => {
@@ -221,7 +252,7 @@ app.post('/api/order/place', async (req, res) => {
     try {
         const { shipping, payment } = req.body;
         
-        // 1. Finalize totals (Recalculate based on current session data)
+        // --- 1. Finalize totals (Recalculate based on current session data) ---
         const cartItems = await CartItem.find({});
         let subtotal = 0;
         cartItems.forEach(item => subtotal += item.price * item.quantity);
@@ -233,10 +264,8 @@ app.post('/api/order/place', async (req, res) => {
         const tax = taxableSubtotal * 0.1;
         const finalTotal = taxableSubtotal + tax;
 
-        // 2. IMPORTANT: In a real app, process payment here (Stripe, etc.)
-        // We will assume success for this example.
-
-        // 3. Create Order Record (Replace with Mongoose Order Model logic)
+        // 2. IMPORTANT: Process payment and create order record here
+        
         const orderData = {
             userId: req.session.user ? req.session.user.id : 'guest',
             shipping,
@@ -244,17 +273,18 @@ app.post('/api/order/place', async (req, res) => {
                 total: finalTotal,
                 discount: discountAmount,
                 tax,
-                method: 'Card' // Based on form input
+                method: 'Card' 
             },
-            items: cartItems.map(item => ({ name: item.name, price: item.price, quantity: item.quantity })),
+            items: cartItems.map(item => ({ 
+                name: item.name, 
+                price: item.price, 
+                quantity: item.quantity,
+                productId: item.productId 
+            })),
             placedAt: new Date()
         };
         
-        // This is where you would save the order to MongoDB:
-        // const newOrder = new Order(orderData);
-        // await newOrder.save();
-        
-        // 4. Clear the cart and session variables
+        // 3. Clear the cart and session variables
         await CartItem.deleteMany({});
         req.session.discount = null;
         req.session.discountCode = null;
