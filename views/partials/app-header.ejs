@@ -9,7 +9,7 @@
         </ul>
     </nav>
     <div class="header-actions">
-        
+
         <div class="dropdown">
             <% if (user) { %>
                 <a href="#" class="account-link" id="user-display">
@@ -19,12 +19,13 @@
                     <a href="/account/logout" class="dropdown-item">Logout</a>
                 </div>
             <% } else { %>
-                <a href="/account" class="account-link">
+                <a href="/login" class="account-link">
                     Account <i class="fas fa-chevron-down"></i>
                 </a>
             <% } %>
         </div>
 
         <img src="/cart/user-person-account-avatar-profile-man-svgrepo-com.svg" alt="Account" class="bag-icon">
+
     </div>
 </header>

@@ -1,0 +1,159 @@
+:root {
+    --primary-blue: #3f7de1;
+    --primary-green: #4CAF50;
+    --main-bg: #ffffff;
+    --page-bg: #f4f7f6;
+    --text-color: #333;
+    --light-text: #888;
+    --font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-image: url(order.png);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.minimal-header {
+    padding: 1.5rem 2rem;
+    text-align: center;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--text-color);
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.logo-span {
+    color: var(--primary-blue);
+}
+
+.success-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.success-card {
+    background: var(--main-bg);
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    /* Card entrance animation */
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.success-card h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.order-id-box {
+    background-color: var(--page-bg);
+    border: 1px dashed var(--light-text);
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 2.5rem;
+}
+
+.btn-primary {
+    width: 100%;
+    background-color: var(--primary-blue);
+    color: var(--main-bg);
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(63, 125, 225, 0.3);
+}
+.btn-primary:hover {
+    background-color: #326ac8;
+    box-shadow: 0 6px 15px rgba(63, 125, 225, 0.4);
+}
+
+
+/* --- Animated Checkmark --- */
+.checkmark-wrapper {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
+}
+
+.checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 3;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    animation: scale .3s ease-in-out .9s both;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke: var(--primary-green);
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) 0.3s forwards;
+}
+
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: var(--primary-green);
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}

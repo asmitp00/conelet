@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed! - CONÉLET</title>
+    <!-- We use a new, dedicated CSS file for this page -->
+    <link rel="stylesheet" href="/css/order-success.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="minimal-header">
+        <a href="/" class="logo">C<span class="logo-span">O</span>NÉLET</a>
+    </header>
+
+    <main class="success-main">
+        <div class="success-card">
+
+            <!-- Animated Checkmark -->
+            <div class="checkmark-wrapper">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+
+            <h1>Thank You For Your Order!</h1>
+
+            <p class="subtitle">
+                Your order has been placed successfully.
+                An email confirmation has been sent to your address.
+            </p>
+
+            <div class="order-id-box">
+                Order ID: <strong><%= orderId %></strong>
+            </div>
+
+            <a href="/products" class="btn-primary">Continue Shopping</a>
+        </div>
+    </main>
+</body>
+</html>

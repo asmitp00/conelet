@@ -3,21 +3,16 @@ const path = require('path');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-// --- Mongoose Models ---
 const Product = require('./models/product');
 const CartItem = require('./models/cartItem');
-
-// --- PLACEHOLDER USER MODEL/ARRAY ---
-// IMPORTANT: This is a placeholder. Replace with your Mongoose User model later.
-let users = []; 
+const User = require('./models/user');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- Middleware Setup ---
 app.use(express.json());
-// Parses incoming form data (crucial for account login/register)
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 
 const dbUrl = process.env.DATABASE_URL;
 
@@ -25,112 +20,143 @@ mongoose.connect(dbUrl)
   .then(() => console.log('MongoDB connected successfully!'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 const session = require('express-session');
 
 app.use(session({
-    secret: 'change-this-to-a-long-random-string', 
+    secret: 'change-this-to-a-long-random-string',
     resave: false,
     saveUninitialized: true
 }));
 
-// --- Middleware to attach user/status to all routes ---
+// Middleware to pass user data to all views
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
-    res.locals.discount = req.session.discount || 0;
     next();
 });
 
 // --- PAGE RENDERING ROUTES ---
-
 app.get('/', (req, res) => { res.render('index'); });
 
 app.get('/products', async (req, res) => {
-    try {
-        const allProducts = await Product.find({});
-        res.render('products', { products: allProducts });
-    } catch (err) {
-        res.status(500).send('Error loading products');
-    }
+  try {
+    const allProducts = await Product.find({});
+    res.render('products', { products: allProducts });
+  } catch (err) {
+    res.status(500).send('Error loading products');
+  }
 });
 
-// 1. ACCOUNT RENDERING ROUTE
-app.get('/account', (req, res) => {
-    if (req.session.user) {
-        return res.redirect('/'); 
-    }
-    res.render('account', { 
-        error: req.session.error || null, 
+app.get('/cart', async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  try {
+    const cartItems = await CartItem.find({ userId: req.session.user._id });
+
+    let subtotal = 0;
+    cartItems.forEach(item => subtotal += item.price * item.quantity);
+
+    // Apply discount to cart page totals
+    const discountPercentage = req.session.discount || 0;
+    const discountAmount = subtotal * discountPercentage;
+    const taxableSubtotal = subtotal - discountAmount;
+
+    const tax = taxableSubtotal * 0.1;
+    const total = taxableSubtotal + tax;
+
+    res.render('cart', {
+      cartItems,
+      subtotal,
+      tax,
+      total,
+      discountAmount: discountAmount,
+      discountCode: req.session.discountCode || null
+    });
+  } catch (err) {
+    console.error("Error loading cart:", err);
+    res.status(500).send('Error loading cart');
+  }
+});
+
+// --- NEW: ORDER SUCCESS PAGE ROUTE ---
+// This handles the "Thank You" page after a successful order
+app.get('/order/success/:orderId', (req, res) => {
+    res.render('order-success', {
+        orderId: req.params.orderId,
+        user: req.session.user || null
+    });
+});
+
+
+// --- ACCOUNT ROUTES ---
+
+// Show the login/register page
+app.get('/login', (req, res) => {
+    res.render('login', {
+        error: req.session.error || null,
         mode: req.session.mode || 'login'
     });
     req.session.error = null;
     req.session.mode = null;
 });
 
-app.get('/cart', async (req, res) => {
+// Handle registration
+app.post('/register', async (req, res) => {
+    const { name, email, password } = req.body;
     try {
-        const cartItems = await CartItem.find({});
-        let subtotal = 0;
-        cartItems.forEach(item => subtotal += item.price * item.quantity);
-        
-        // Apply Discount
-        const discountPercentage = req.session.discount || 0;
-        const discountAmount = subtotal * discountPercentage;
-        const taxableSubtotal = subtotal - discountAmount;
-        
-        const tax = taxableSubtotal * 0.1;
-        const total = taxableSubtotal + tax;
-
-        res.render('cart', {
-            cartItems,
-            subtotal,
-            tax,
-            total,
-            discountAmount,
-            discountCode: req.session.discountCode || null
-        });
+        const existing = await User.findOne({ email: email });
+        if (existing) {
+            req.session.error = 'Email already in use.';
+            req.session.mode = 'register';
+            return res.redirect('/login');
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({ name, email, password: hashedPassword });
+        await user.save();
+        req.session.user = { _id: user._id, name: user.name, email: user.email };
+        res.redirect('/products');
     } catch (err) {
-        res.status(500).send('Error loading cart');
-    }
-});
-
-
-// --- NEW ACCOUNT SUBMISSION ROUTES ---
-
-app.post('/account/register', (req, res) => {
-    const { email, name, password } = req.body;
-    
-    if (users.find(u => u.email === email)) {
-        req.session.error = 'This email is already registered.';
+        console.error(err);
+        req.session.error = 'Error creating account.';
         req.session.mode = 'register';
-        return res.redirect('/account');
+        res.redirect('/login');
     }
-    
-    // In a real app, hash the password!
-    const newUser = { id: Date.now(), email, name, password, cartId: req.session.cartId || null };
-    users.push(newUser);
-    
-    req.session.user = newUser; 
-    res.redirect('/cart'); 
 });
 
-app.post('/account/login', (req, res) => {
+// Handle login
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    
-    const user = users.find(u => u.email === email && u.password === password);
-    
-    if (user) {
-        req.session.user = user;
-        res.redirect('/cart'); 
-    } else {
-        req.session.error = 'Invalid email or password.';
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            req.session.error = 'Invalid email or password.';
+            req.session.mode = 'login';
+            return res.redirect('/login');
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            req.session.error = 'Invalid email or password.';
+            req.session.mode = 'login';
+            return res.redirect('/login');
+        }
+        req.session.user = { _id: user._id, name: user.name, email: user.email };
+        res.redirect('/products');
+    } catch (err) {
+        console.error(err);
+        req.session.error = 'Server error during login.';
         req.session.mode = 'login';
-        res.redirect('/account');
+        res.redirect('/login');
     }
 });
 
+// Handle logout
 app.get('/account/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/');
@@ -138,170 +164,194 @@ app.get('/account/logout', (req, res) => {
 });
 
 
-// --- EXISTING & NEW API ROUTES ---
+// --- API ROUTES ---
 
 app.get('/api/products', async (req, res) => {
-    try {
-        let filter = {};
-        if (req.query.categories) filter.category = { $in: req.query.categories };
-        if (req.query.sizes) filter.size = { $in: req.query.sizes };
-        if (req.query.maxPrice) filter.price = { $lte: parseFloat(req.query.maxPrice) };
-        if (req.query.search) filter.name = { $regex: req.query.search, $options: 'i' };
-
-        let sort = {};
-        if (req.query.sort === 'price-asc') sort.price = 1;
-        else if (req.query.sort === 'price-desc') sort.price = -1;
-
-        const filteredProducts = await Product.find(filter).sort(sort);
-        res.json(filteredProducts);
-    } catch (err) {
-        res.status(500).json({ error: 'Error fetching data' });
-    }
+  try {
+    let filter = {};
+    if (req.query.categories) filter.category = { $in: req.query.categories };
+    if (req.query.sizes) filter.size = { $in: req.query.sizes };
+    if (req.query.maxPrice) filter.price = { $lte: parseFloat(req.query.maxPrice) };
+    if (req.query.search) filter.name = { $regex: req.query.search, $options: 'i' };
+    let sort = {};
+    if (req.query.sort === 'price-asc') sort.price = 1;
+    else if (req.query.sort === 'price-desc') sort.price = -1;
+    const filteredProducts = await Product.find(filter).sort(sort);
+    res.json(filteredProducts);
+  } catch (err) {
+    res.status(500).json({ error: 'Error fetching data' });
+  }
 });
 
-// FIX: Changed findOne by productId to ensure correct item aggregation
+// "Add to Cart"
 app.post('/api/cart/add', async (req, res) => {
-    try {
-        const { productId, name, price, image } = req.body;
-        // Find by productId field, not Mongoose _id
-        let existingItem = await CartItem.findOne({ productId }); 
-
-        if (existingItem) {
-            existingItem.quantity += 1;
-            await existingItem.save();
-        } else {
-            // Ensure ProductId is passed to the database model
-            const newItem = new CartItem({ productId, name, price, image, quantity: 1 });
-            await newItem.save();
-        }
-
-        const totalCount = await CartItem.find({})
-            .then(items => items.reduce((sum, item) => sum + item.quantity, 0));
-
-        res.json({ success: true, message: 'Added to cart!', newCount: totalCount });
-    } catch (err) {
-        res.status(500).json({ success: false, error: 'Error adding to cart' });
+  if (!req.session.user) {
+    return res.status(401).json({
+        success: false,
+        message: 'You must be logged in to add items.',
+        redirect: '/login'
+    });
+  }
+  try {
+    const { productId, name, price, image } = req.body;
+    const userId = req.session.user._id;
+    let existingItem = await CartItem.findOne({ productId: productId, userId: userId });
+    if (existingItem) {
+      existingItem.quantity += 1;
+      await existingItem.save();
+    } else {
+      const newItem = new CartItem({ productId, name, price, image, quantity: 1, userId: userId });
+      await newItem.save();
     }
+    const totalCount = await CartItem.find({ userId: userId })
+      .then(items => items.reduce((sum, item) => sum + item.quantity, 0));
+    res.json({ success: true, message: 'Added to cart!', newCount: totalCount });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Error adding to cart' });
+  }
 });
 
+// Cart Count
 app.get('/api/cart/count', async (req, res) => {
-    try {
-        const totalCount = await CartItem.find({})
-            .then(items => items.reduce((sum, item) => sum + item.quantity, 0));
-
-        res.json({ success: true, count: totalCount });
-    } catch (err) {
-        res.status(500).json({ success: false, error: 'Error counting cart' });
-    }
+  if (!req.session.user) {
+    return res.json({ success: true, count: 0 });
+  }
+  try {
+    const userId = req.session.user._id;
+    const totalCount = await CartItem.find({ userId: userId })
+      .then(items => items.reduce((sum, item) => sum + item.quantity, 0));
+    res.json({ success: true, count: totalCount });
+  } catch (err) {
+    res.status(500).json({ success: false, error: 'Error counting cart' });
+  }
 });
 
+// Cart Update
 app.post('/api/cart/update/:itemId', async (req, res) => {
-    try {
-        const { itemId } = req.params;
-        const { action } = req.body;
+  if (!req.session.user) {
+    return res.status(401).json({ success: false, error: 'Not logged in.' });
+  }
+  try {
+    const { itemId } = req.params;
+    const { action } = req.body;
+    const userId = req.session.user._id;
+    const item = await CartItem.findOne({ _id: itemId, userId: userId });
 
-        const item = await CartItem.findById(itemId);
-        if (!item) return res.status(404).json({ success: false, error: 'Item not found' });
+    // --- FIX 1: Was '4Z4' ---
+    if (!item) return res.status(404).json({ success: false, error: 'Item not found' });
 
-        if (action === 'increment') {
-            item.quantity += 1;
-        } else if (action === 'decrement') {
-            if (item.quantity > 1) {
-                item.quantity -= 1;
-            } else {
-                await CartItem.findByIdAndDelete(itemId);
-                return res.json({ success: true, reload: true });
-            }
-        }
-
-        await item.save();
-        res.json({ success: true, reload: true });
-    } catch (err) {
-        res.status(500).json({ success: false, error: 'Error updating quantity' });
+    if (action === 'increment') {
+      item.quantity += 1;
+    } else if (action === 'decrement') {
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+      } else {
+        await CartItem.findByIdAndDelete(itemId);
+        return res.json({ success: true, reload: true });
+      }
     }
+    await item.save();
+    res.json({ success: true, reload: true });
+  } catch (err) {
+    // --- FIX 2: Was '5Video (Async):' ---
+    res.status(500).json({ success: false, error: 'Error updating quantity' });
+  }
 });
 
+// Cart Remove
 app.delete('/api/cart/remove/:itemId', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ success: false, error: 'Not logged in.' });
+    }
     try {
         const { itemId } = req.params;
-        await CartItem.findByIdAndDelete(itemId);
+        const userId = req.session.user._id;
+        await CartItem.findOneAndDelete({ _id: itemId, userId: userId });
         res.json({ success: true, reload: true });
     } catch (err) {
+        // --- FIX 3: Was '50od' ---
         res.status(500).json({ success: false, error: 'Error removing item' });
     }
 });
 
-
-// 2. NEW API ROUTE: Apply Discount
+// API Route: Apply Discount
 app.post('/api/cart/apply-discount', (req, res) => {
     const { code } = req.body;
-
     if (code && code.toUpperCase() === 'CONE10') {
         req.session.discount = 0.10; // Store 10% discount
         req.session.discountCode = code.toUpperCase();
         res.json({ success: true, message: 'Discount applied!' });
     } else {
-        req.session.discount = 0; // Clear any existing discount
+        req.session.discount = 0;
         req.session.discountCode = null;
         res.status(400).json({ success: false, message: 'Invalid discount code.' });
     }
 });
 
-// 3. NEW API ROUTE: Place Order
+// API Route: Place Order
 app.post('/api/order/place', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ success: false, message: 'You must be logged in to place an order.' });
+    }
     try {
         const { shipping, payment } = req.body;
-        
-        // --- 1. Finalize totals (Recalculate based on current session data) ---
-        const cartItems = await CartItem.find({});
+        const userId = req.session.user._id;
+
+        const cartItems = await CartItem.find({ userId: userId });
+
+        if (cartItems.length === 0) {
+            return res.status(400).json({ success: false, message: 'Your cart is empty.' });
+        }
+
         let subtotal = 0;
         cartItems.forEach(item => subtotal += item.price * item.quantity);
-        
+
         const discountPercentage = req.session.discount || 0;
         const discountAmount = subtotal * discountPercentage;
         const taxableSubtotal = subtotal - discountAmount;
-        
+
         const tax = taxableSubtotal * 0.1;
         const finalTotal = taxableSubtotal + tax;
 
-        // 2. IMPORTANT: Process payment and create order record here
-        
+        // --- In a real app, process payment HERE ---
+
         const orderData = {
-            userId: req.session.user ? req.session.user.id : 'guest',
+            userId: userId,
             shipping,
             paymentSummary: {
                 total: finalTotal,
                 discount: discountAmount,
                 tax,
-                method: 'Card' 
+                method: 'Card'
             },
-            items: cartItems.map(item => ({ 
-                name: item.name, 
-                price: item.price, 
+            items: cartItems.map(item => ({
+                name: item.name,
+                price: item.price,
                 quantity: item.quantity,
-                productId: item.productId 
+                productId: item.productId
             })),
             placedAt: new Date()
         };
-        
-        // 3. Clear the cart and session variables
-        await CartItem.deleteMany({});
+
+        // --- In a real app, save 'orderData' to an 'Order' collection ---
+        // const newOrder = new Order(orderData);
+        // await newOrder.save();
+        console.log("Order placed:", orderData);
+
+        // --- Delete cart items for THIS user ONLY ---
+        await CartItem.deleteMany({ userId: userId });
         req.session.discount = null;
         req.session.discountCode = null;
 
-        res.json({ success: true, orderId: Date.now() });
+        res.json({ success: true, orderId: Date.now() }); // Using timestamp as a fake Order ID
 
     } catch (error) {
         console.error('Error placing order:', error);
+        // --- FIX 4: Was '5We' ---
         res.status(500).json({ success: false, message: 'Server error while placing order.' });
     }
 });
 
 
-// --- Static Files & Server Start ---
-
+// --- Static Files ---
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
