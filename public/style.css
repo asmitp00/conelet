@@ -102,8 +102,6 @@ header {
     color: white;
 }
 
-
-
 .detail {
     position: relative;
     color: white;
@@ -115,16 +113,15 @@ header {
 }
 
 .detail::after {
-  content: "→";
-  position: absolute;
-  left: 30%;
-  transform: translateX(-50%);
-  font-size: 60px;
-  color: white;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-
+    content: "→";
+    position: absolute;
+    left: 30%;
+    transform: translateX(-50%);
+    font-size: 60px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
 }
 
 .bowl-selector {
@@ -136,16 +133,12 @@ header {
     gap: 2px;
     z-index: 15;
     align-items: flex-end;
-
 }
-
 
 .bowl-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-
 }
 
 .bowl {
@@ -155,9 +148,7 @@ header {
     height: auto;
     transition: transform 0.3s ease;
     object-fit: contain;
-     filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.4));
-
-
+    filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.4));
 }
 
 .bowl-wrapper:nth-child(1) .bowl,
@@ -166,9 +157,7 @@ header {
 .bowl-wrapper:nth-child(4) .bowl {
     width: 100px;
     height: auto;
-
 }
-
 
 .bowl:hover {
     transform: scale(1.1);
@@ -203,10 +192,6 @@ header {
     background-color: rgb(255, 178, 12);
 }
 
-
-
-
-
 .specialties {
     position: relative;
     background-image: url(specialties.png);
@@ -232,7 +217,6 @@ header {
     width: 100%;
 }
 
-
 .specialties h2 {
     font-size: 115px;
     font-weight: lighter;
@@ -249,6 +233,7 @@ header {
     margin: 0;
 }
 
+
 .box1,
 .box2,
 .box3 {
@@ -260,7 +245,10 @@ header {
     width: 300px;
     height: 380px;
     background-color: white;
+
+    box-shadow: 10px 20px 24px rgba(0, 0, 0, 0.50);
 }
+
 
 .img1 {
     background-image: url(https://m.media-amazon.com/images/I/71-Jk4SpmOL.jpg);
@@ -296,6 +284,7 @@ header {
     text-decoration: none;
     color: inherit;
 }
+
 .text p {
     color: black;
     text-align: center;
@@ -309,8 +298,6 @@ header {
     margin-top: 20px;
     text-decoration: none;
     cursor: pointer;
-
-
 }
 
 .order p {
@@ -559,5 +546,3 @@ form input {
     margin-right: 20px;
     cursor: pointer;
 }
-
-
