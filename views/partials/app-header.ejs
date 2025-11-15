@@ -9,17 +9,28 @@
         </ul>
     </nav>
     <div class="header-actions">
-        <!-- Account dropdown --><div class="dropdown">
-            <a href="#" class="account-link">
-                Account <i class="fas fa-chevron-down"></i>
-            </a>
-            <div class="dropdown-content"></div>
+        
+        <!-- Account Dropdown Logic -->
+        <div class="dropdown">
+            <% if (user) { %>
+                <!-- State 1: User is Logged In -->
+                <a href="/account" class="account-link">
+                    Hello, <%= user.name %>! <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="dropdown-content" style="position: absolute; right: 0;">
+                    <!-- Simple, non-functional content for now -->
+                    <a href="/account/logout" style="display: block; padding: 10px; background: white; border: 1px solid #eee;">Logout</a>
+                </div>
+            <% } else { %>
+                <!-- State 2: User is Logged Out -->
+                <a href="/account" class="account-link">
+                    Account <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="dropdown-content"></div>
+            <% } %>
         </div>
 
-        <!-- Profile icon (remains) --><img src="/cart/user-person-account-avatar-profile-man-svgrepo-com.svg" alt="Account" class="bag-icon">
-
-        <!--
-          REMOVED: The cart icon and counter are no longer here.
-          They will be moved to views/products.ejs instead.
-        --></div>
+        <!-- Profile icon (remains) -->
+        <img src="/cart/user-person-account-avatar-profile-man-svgrepo-com.svg" alt="Account" class="bag-icon">
+    </div>
 </header>
